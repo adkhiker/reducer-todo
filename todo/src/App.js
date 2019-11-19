@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useReducer } from 'react';
+import ToDoForm from './components/ToDoForm';
+import DisplayToDos from './components/DisplayToDos';
 import './App.css';
+import { initialState, todoReducer } from './reducers/todoReducer';
 
 function App() {
+  const [newTodo, setNewToDo] = useState({ todo: '', due: '', tag: '' });
+  const [state, dispatch] = useReducer(todoReducer, initialState);
+
+  const handleInput = (e) => {
+    let name = e.target.name;
+    let eValue = e.target.value;
+    setNewToDo({ ...newTodo, [name]: eValue })
+  }
+
+  const clearValues = () => {
+    setNewToDo({ todo: '', due: '' })
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>The Never Ending List of Things to Do!</h1>
+      <DisplayToDos state={state} dispatch={dispatch} />
+      <ToDoForm dispatch={dispatch} input={(e) => handleInput(e)} value={newTodo} clearFields={() => clearValues()} />
+      <button onClick={() => dispatch({ type: 'DELETE_COMPLETED' })}>Remove Completed Tasks</button>
     </div>
   );
 }
