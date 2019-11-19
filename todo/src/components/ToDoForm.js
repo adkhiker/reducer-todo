@@ -19,7 +19,12 @@ const ToDoForm = ({ dispatch, value, input, clearFields }) => {
             <label>Walk the Dog</label>
           </div>
           <div>
-            <input type="radio" name="tag" onChange={input} value="MakeCoffee" />
+            <input
+              type="radio"
+              name="tag"
+              onChange={input}
+              value="MakeCoffee"
+            />
             <label>Make Coffee</label>
           </div>
           <div>
